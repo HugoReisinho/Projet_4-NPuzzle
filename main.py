@@ -84,16 +84,7 @@ class NPuzzle:
 
         return (correta / total) * 100
 
-    # Minhas ******************************************************************************************************
-
-    @staticmethod
-    def successors():
-        # deve devolver lista de (novo_estado, acao, custo)
-        pass
-
-    def aplicar_movimento(self):
-        pass
-
+    # Baralhar respeitando a paridade ********************************************************************************
     def baralhar(self):
         while True:
 
@@ -110,14 +101,49 @@ class NPuzzle:
             if novo != self.estado:
                 return novo
 
+    # MENU
+    def escolhe_dificuldade():
+        baralhado = False   # flag para saber se ja foi baralha ou nao
+
+        while True:
+            print("\n=== Escolhe a dificuldade ===")
+            print("1 - Fácil 2 - Médio 3 - Difícil")
+
+            opcao = input("Opção: ").strip()
+
+            if opcao == "1":
+                return "facil", 10
+            if opcao == "2":
+                return "media", 25
+            if opcao == "3":
+                return "dificil", 40
+
+            print("Opção inválida, dificuldade média.")
+            return "media", 25
+
+    # Minhas ******************************************************************************************************
+
+    @staticmethod
+    def successors():
+        # deve devolver lista de (novo_estado, acao, custo)
+        pass
+
+    def aplicar_movimento(self):
+        pass
+
+
 
 if __name__ == "__main__":
+
     # Cria objeto
     npuzzle = NPuzzle(NPuzzle.cria_matriz())
 
     npuzzle.estado = npuzzle.baralhar() # baralha matriz
     print(f'Estado:\n{npuzzle.prettify(npuzzle.estado)}')
 
-    #percentagem = npuzzle.percentagem_conclusao(npuzzle.estado)
-    #print(f"Percentagem de conclusão: {percentagem:.2f}%")
+    percentagem = npuzzle.percentagem_conclusao(npuzzle.estado)
+    #passos = escolhe_dificuldade()
+
+    dificuldade, passos = NPuzzle.escolhe_dificuldade()
+    print(f"Percentagem de conclusão: {percentagem:.2f}%  Didiculdade: {dificuldade } Passos: {passos}")
         
