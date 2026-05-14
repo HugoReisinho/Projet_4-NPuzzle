@@ -54,6 +54,21 @@ class NPuzzle:
 
         return True
 
+    # Percentagem Conclusao ***************************************************************************************
+    def percentagem_conclusao(self, matriz) :
+        correta, total = 0, 0
+
+        for i in range(len(matriz)):
+            for j in range(len(matriz[0])):
+                if self.estado_final[i][j] != 0:
+                    total += 1
+                    if matriz[i][j] == self.estado[i][j]:
+                        correta += 1
+
+        return (correta / total) * 100
+
+    # Percentagem Conclusao ***************************************************************************************
+
     @staticmethod
     def successors():
         # deve devolver lista de (novo_estado, acao, custo)
@@ -91,8 +106,15 @@ if __name__ == "__main__":
     print( f'A matriz é final: {npuzzle.is_final(baralhar)}')
 
     estado_original = npuzzle.estado
+    # cria matriz baralhada
     estado_baralhado = npuzzle.baralhar()
 
-    print("Os mapas sao iguais" if npuzzle.is_equal(estado_original, estado_baralhado) else "Os mapas nao sao iguais")
+    print("Os mapas sao iguais" if npuzzle.is_equal(estado_original, baralhar) else "Os mapas nao sao iguais")
 
+    print("Estado:", estado_baralhado)
+    print("Objetivo:", npuzzle.estado)
+
+    # Percentagem
+    percentagem_conclusao = npuzzle.percentagem_conclusao(estado_baralhado)
+    print( f'Percentagem de conclusao: {percentagem_conclusao:.2f}%' )
         
