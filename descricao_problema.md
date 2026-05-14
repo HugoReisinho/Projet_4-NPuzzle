@@ -20,9 +20,22 @@ A*..............................................................❌ Falta
 
 🧠 Heurísticas
 Heurística	                                                     Estado
-Manhattan Distance..............................................❌ Falta
+Manhattan Distance ??????.......................................❌ Falta
 
 Legenda:    ✔️ Feito  ❌ Falta
 
 
 ---------------------------------------------------------------------------------------------------------------------
+
+npuzzle.py
+│
+├── class NPuzzle
+│     ├── mover()
+│     ├── sucessores()
+│     ├── is_goal()
+│     ├── percentagem_conclusao()
+│     └── baralhar()
+│
+├── manual_gaming()
+│
+└── main()     

@@ -4,12 +4,6 @@ import random
 
 class NPuzzle:
 
-    @staticmethod
-    def cria_matriz():
-        aux = list(range(1, 9)) + [0]
-        npuzzle = ( tuple (aux[0:3]), tuple (aux[3:6]), tuple(aux[6:9]) )
-        return npuzzle
-
     # Construtor
     def __init__(self, matriz):
         self.estado = matriz
@@ -54,6 +48,29 @@ class NPuzzle:
 
         return True
 
+    # Minhas ******************************************************************************************************
+    # Cria matriz **************************************************************************************************
+    @staticmethod
+    def cria_matriz():
+        aux = list(range(1, 9)) + [0]
+        npuzzle = ( tuple (aux[0:3]), tuple (aux[3:6]), tuple(aux[6:9]) )
+        return npuzzle
+
+    # Mostra matriz - prettify ***************************************************************************************
+    def prettify(self, estado):
+        s = ""
+        for i in estado:
+            s += "+---+---+---+\n"
+            s += "|"
+            for v in i:
+                if v == 0:
+                    s += "   |"
+                else:
+                    s += f" {v} |"
+            s += "\n"
+        s += "+---+---+---+\n"
+        return s
+
     # Percentagem Conclusao ***************************************************************************************
     def percentagem_conclusao(self, matriz) :
         correta, total = 0, 0
@@ -62,12 +79,12 @@ class NPuzzle:
             for j in range(len(matriz[0])):
                 if self.estado_final[i][j] != 0:
                     total += 1
-                    if matriz[i][j] == self.estado[i][j]:
+                    if matriz[i][j] == self.estado_final[i][j]:
                         correta += 1
 
         return (correta / total) * 100
 
-    # Percentagem Conclusao ***************************************************************************************
+    # Minhas ******************************************************************************************************
 
     @staticmethod
     def successors():
@@ -97,24 +114,10 @@ class NPuzzle:
 if __name__ == "__main__":
     # Cria objeto
     npuzzle = NPuzzle(NPuzzle.cria_matriz())
-    print(f'Original:\n{npuzzle}')
 
-    baralhar=npuzzle.baralhar()
-    npuzzle.estado = baralhar
-    print(f'Baralhada:\n{npuzzle}')
+    npuzzle.estado = npuzzle.baralhar() # baralha matriz
+    print(f'Estado:\n{npuzzle.prettify(npuzzle.estado)}')
 
-    print( f'A matriz é final: {npuzzle.is_final(baralhar)}')
-
-    estado_original = npuzzle.estado
-    # cria matriz baralhada
-    estado_baralhado = npuzzle.baralhar()
-
-    print("Os mapas sao iguais" if npuzzle.is_equal(estado_original, baralhar) else "Os mapas nao sao iguais")
-
-    print("Estado:", estado_baralhado)
-    print("Objetivo:", npuzzle.estado)
-
-    # Percentagem
-    percentagem_conclusao = npuzzle.percentagem_conclusao(estado_baralhado)
-    print( f'Percentagem de conclusao: {percentagem_conclusao:.2f}%' )
+    #percentagem = npuzzle.percentagem_conclusao(npuzzle.estado)
+    #print(f"Percentagem de conclusão: {percentagem:.2f}%")
         
