@@ -109,13 +109,13 @@ class NPuzzle:
         while True:
 
             linhas = []
-            for l in self.estado:
-                nova_linha = list(l)
+            for linha in self.estado:
+                nova_linha = list(linha)
                 linhas.append(nova_linha)
 
             random.shuffle(linhas)   # baralhar linhas inteiras
 
-            novo = tuple(tuple(l) for l in linhas)
+            novo = tuple(tuple(linha) for linha in linhas)
 
             # garantir que não é igual ao original
             if novo != self.estado:
