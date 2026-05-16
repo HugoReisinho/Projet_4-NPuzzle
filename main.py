@@ -58,18 +58,18 @@ class NPuzzle:
 
     # Mostra matriz - prettify ***************************************************************************************
     def prettify(self, estado):
-        s = ""
-        for i in estado:
-            s += "+---+---+---+\n"
-            s += "|"
-            for v in i:
-                if v == 0:
-                    s += "   |"
+        matriz_visual = ""
+        for linha in estado:
+            matriz_visual += "+---+---+---+\n"
+            matriz_visual += "|"
+            for val in linha:
+                if val == 0:
+                    matriz_visual += "   |"
                 else:
-                    s += f" {v} |"
-            s += "\n"
-        s += "+---+---+---+\n"
-        return s
+                    matriz_visual += f" {val} |"
+            matriz_visual += "\n"
+        matriz_visual += "+---+---+---+\n"
+        return matriz_visual
 
     # Percentagem Conclusao ***************************************************************************************
     def percentagem_conclusao(self, matriz) :
@@ -83,23 +83,6 @@ class NPuzzle:
                         correta += 1
 
         return (correta / total) * 100
-
-    # Baralhar respeitando a paridade ********************************************************************************
-    def baralhar(self):
-        while True:
-
-            linhas = []
-            for l in self.estado:
-                nova_linha = list(l)
-                linhas.append(nova_linha)
-
-            random.shuffle(linhas)   # baralhar linhas inteiras
-
-            novo = tuple(tuple(l) for l in linhas)
-
-            # garantir que não é igual ao original
-            if novo != self.estado:
-                return novo
 
     # MENU
     def escolhe_dificuldade():
@@ -120,6 +103,56 @@ class NPuzzle:
 
             print("Opção inválida, dificuldade média.")
             return "media", 25
+
+    # Baralhar respeitando a paridade ********************************************************************************
+    def baralhar(self):
+        while True:
+
+            linhas = []
+            for l in self.estado:
+                nova_linha = list(l)
+                linhas.append(nova_linha)
+
+            random.shuffle(linhas)   # baralhar linhas inteiras
+
+            novo = tuple(tuple(l) for l in linhas)
+
+            # garantir que não é igual ao original
+            if novo != self.estado:
+                return novo
+
+    # Função que conta quantas inversões existem no estado.
+    # Uma inversão é quando um número aparece antes de outro número mais pequeno.
+    # O zero é ignorado.
+    def contar_inversoes(self, matriz):
+
+        #Ignora o 0
+        lista = []
+        for linha in matriz:
+            for valor in linha:
+                if valor != 0:
+                    lista.append(valor)
+            # 2. Contar inversões
+        inversoes = 0
+        tamanho = len(lista)
+
+        for i in range(tamanho):
+            for j in range(i + 1, tamanho):
+                if lista[i] > lista[j]:
+                    inversoes += 1
+
+        return inversoes
+
+    # Garante que a matriz gerada respeita a paridade (tem soluçao)
+    def tem_solucao(self, matriz):
+        # Um puzzle 3x3 é solucionável se o número de inversões for par.
+
+        inversoes = self.contar_inversoes(matriz)
+
+        if inversoes % 2 == 0:
+            return True
+        else:
+            return False
 
     # Minhas ******************************************************************************************************
 
@@ -144,6 +177,13 @@ if __name__ == "__main__":
     percentagem = npuzzle.percentagem_conclusao(npuzzle.estado)
     #passos = escolhe_dificuldade()
 
-    dificuldade, passos = NPuzzle.escolhe_dificuldade()
+    # Valores por defeito
+    dificuldade = None
+    passos = None
+    #dificuldade, passos = NPuzzle.escolhe_dificuldade()
+    # Se não houver escolha, usar default
+    if dificuldade is None or passos is None:
+        dificuldade = "media"
+        passos = 25
     print(f"Percentagem de conclusão: {percentagem:.2f}%  Didiculdade: {dificuldade } Passos: {passos}")
         
